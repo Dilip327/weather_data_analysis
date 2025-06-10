@@ -1,15 +1,15 @@
 from src.data_loader import fetch_weather_data
 from src.data_cleaner import clean_weather_data
-from src.analyzer import plot_temperature
+
 from src.data_loader import fetch_weather_data
 from src.data_cleaner import clean_weather_data
 from src.feature_engineering import engineer_features, select_features
-from src.analyzer import plot_temperature
+
 from src.data_loader import fetch_weather_data
 from src.data_cleaner import clean_weather_data
-from src.feature_engineering import engineer_features, select_features
+
 from src.statistics import summarize_statistics, generate_insights, missing_data_report
-from src.analyzer import plot_temperature
+
 from src.data_loader import fetch_weather_data
 from src.data_cleaner import clean_weather_data
 from src.feature_engineering import engineer_features
@@ -17,6 +17,37 @@ from src.statistics import summarize_statistics, generate_insights
 from src.pattern_analysis import detect_trends, detect_anomalies, identify_seasonal_patterns, plot_trend_and_anomalies
 from src.analyzer import plot_temperature
 from src.data_transformer import remove_outliers_iqr, log_transform, standardize
+from src.data_loader import load_and_clean_data
+from src.chart_suggester import suggest_chart
+from src.visualizer import (
+    plot_temperature_trend,
+    plot_monthly_precipitation,
+    plot_distribution,
+    plot_correlation_heatmap,
+    plot_interactive_line
+)
+
+def main():
+    print("🔄 Loading data...")
+    df = load_and_clean_data('data/raw_weather.csv')
+
+    print(f"📈 Chart for trend analysis: {suggest_chart('time_series', 'trend')}")
+    plot_temperature_trend(df)
+
+    print(f"📦 Chart for monthly comparison: {suggest_chart('multivariate', 'group comparison')}")
+    plot_monthly_precipitation(df)
+
+    print(f"📊 Chart for distribution: {suggest_chart('numerical', 'distribution')}")
+    plot_distribution(df, 'wind_speed')
+
+    print(f"📉 Chart for correlation analysis: {suggest_chart('numerical', 'correlation')}")
+    plot_correlation_heatmap(df)
+
+    print("🌐 Launching interactive temperature plot...")
+    plot_interactive_line(df, 'temperature')
+
+if __name__ == "__main__":
+    main()
 
 # Remove outliers
 featured = remove_outliers_iqr(featured, column='tavg')
@@ -130,3 +161,31 @@ plot_temperature_distribution(featured)
 plot_monthly_avg_temperature(featured)
 plot_temp_trend(featured)
 plot_anomalies(featured)
+from src.data_loader import load_and_clean
+from src.visualization import (
+    plot_temperature_trend, 
+    plot_precipitation_box,
+    plot_correlation_heatmap
+)
+from src.chart_suggester import suggest_chart
+
+def main():
+    df = load_and_clean('data/raw_weather.csv')
+
+    print("\n📊 Suggested chart for temperature trend:")
+    print(suggest_chart('time_series', 'trend'))
+
+    plot_temperature_trend(df)
+
+    print("\n📊 Suggested chart for monthly precipitation:")
+    print(suggest_chart('multivariate', 'compare groups'))
+
+    plot_precipitation_box(df)
+
+    print("\n📊 Suggested chart for feature correlation:")
+    print(suggest_chart('numerical', 'correlation'))
+
+    plot_correlation_heatmap(df)
+
+if __name__ == "__main__":
+    main()

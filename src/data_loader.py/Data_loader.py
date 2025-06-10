@@ -13,3 +13,20 @@ def fetch_weather_data(location_name="New York", lat=40.7128, lon=-74.0060, star
     data["location"] = location_name
     
     return data
+import pandas as pd
+
+def load_and_clean(path):
+    df = pd.read_csv(path)
+    df['date'] = pd.to_datetime(df['date'])
+    df = df.fillna(method='ffill')
+    df = df[['date', 'temperature', 'humidity', 'wind_speed', 'precipitation']]
+    df['month'] = df['date'].dt.month_name()
+    return df
+import pandas as pd
+
+def load_and_clean_data(filepath: str) -> pd.DataFrame:
+    df = pd.read_csv(filepath)
+    df['date'] = pd.to_datetime(df['date'])
+    df.fillna(method='ffill', inplace=True)
+    df['month'] = df['date'].dt.month_name()
+    return df[['date', 'temperature', 'humidity', 'wind_speed', 'precipitation', 'month']]
